@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   console.log(`New Car Doctor is Running on port: ${port}`);
-  res.send(`New Car Doctor is Running on port: ${port}`);
+  res.send(`Change commit server is running on port: ${port}`);
 });
 
 ////MongoDB Start
