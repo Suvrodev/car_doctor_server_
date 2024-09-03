@@ -91,17 +91,34 @@ async function run() {
 
     ///Get All Data from services Start
     app.get("/services", async (req, res) => {
-      let query = {};
-      let search = "";
-      if (req?.query?.search) {
-        search = req?.query?.search;
-        console.log("SearchText: ", search);
-        query = { ...query, title: { $regex: search, $options: "i" } };
-        console.log("Query:", query);
-      }
+      try {
+        const sort = req.query.sort || "asc"; // Default sort order is ascending
+        let search = req.query.search || ""; // Default search is an empty string
 
-      const result = await serviceCollection.find(query).toArray();
-      res.send(result);
+        // Ensure that search is a string
+        search = String(search);
+
+        console.log("Sort:", sort);
+        console.log("Search:", search);
+
+        const query = {
+          title: { $regex: search, $options: "i" }, // Case-insensitive search
+        };
+
+        const options = {
+          sort: {
+            price: sort === "asc" ? 1 : -1, // Sort based on the provided order
+          },
+        };
+
+        const result = await serviceCollection.find(query, options).toArray();
+        res.send(result);
+      } catch (error) {
+        console.error("Error occurred:", error);
+        res
+          .status(500)
+          .send({ message: "An error occurred on the server.", error });
+      }
     });
     ///Get All Data from services End
 
