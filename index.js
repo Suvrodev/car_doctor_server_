@@ -10,15 +10,15 @@ const corsConfig = {
   credentials: true,
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
 };
-// app.use(cors(corsConfig));
-app.use(cors());
+app.use(cors(corsConfig));
+// app.use(cors());
 app.use(express.json());
 
 const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   console.log(`New Car Doctor is Running on port: ${port}`);
-  res.send(`Change Cors config,  server is running on port: ${port}`);
+  res.send(`Final Cors config,  server is running on port: ${port}`);
 });
 
 ////MongoDB Start
